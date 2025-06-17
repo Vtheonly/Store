@@ -1,84 +1,266 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #ffffff2b; /* Black background */
-    margin: 0;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff2b;
+
+  margin: 0;
+  overflow: hidden;
 }
 
 .logo-container svg {
-    width: 90%;
-    max-width: 800px;
-    height: auto;
+  scale: 1.8;
+  width: 90%;
+  max-width: 800px;
+  height: auto;
 }
 
-/* This is the base style for ALL paths */
 .logo-stroke {
-    /* --- DRAWING STYLES --- */
-    stroke: #000000;      /* The drawing outline for ALL letters is WHITE */
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    
-    /* --- FILL STYLES --- */
-    fill: #a21b2d;        /* The DEFAULT fill color is RED (for WORCRAFT) */
-    fill-opacity: 0;      /* Start with the fill being invisible */
+  stroke: #000000;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 
-    /* --- ANIMATION SETUP --- */
-    stroke-dasharray: 1500;
-    stroke-dashoffset: 1500;
-    animation: 
-        draw 1.5s ease-in-out forwards,
-        fillIn 0.5s ease-out forwards 2.5s;
+  fill: #a21b2d;
+  fill-opacity: 0;
+
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+  animation: draw 1.5s ease-in-out forwards, fillIn 0.5s ease-out forwards 2.5s;
 }
 
-/* 
-  --- THIS IS THE KEY CHANGE ---
-  This rule targets ONLY the paths with the 'sub' class (POWER TOOLS)
-  and overrides their fill color and stroke width.
-*/
 .logo-stroke.sub {
-     fill: #5e5e5e;      /* Override the fill color to GRAY for POWER TOOLS */
-     stroke-width: 1;    /* Make the line slightly thinner */
+  fill: #5e5e5e;
+  stroke-width: 1;
 }
 
-
-/* Animation 1: Draws the stroke */
 @keyframes draw {
-    to {
-        stroke-dashoffset: 0;
-    }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-/* Animation 2: Fills the shape with color */
 @keyframes fillIn {
-    to {
-        fill-opacity: 1; /* Animate to a visible fill */
-    }
+  to {
+    fill-opacity: 1;
+  }
 }
 
+#w-1 {
+  animation-delay: 0.1s, 2.5s;
+}
+#o-1 {
+  animation-delay: 0.2s, 2.5s;
+}
+#r-1 {
+  animation-delay: 0.3s, 2.5s;
+}
+#c-1 {
+  animation-delay: 0.4s, 2.5s;
+}
+#r-2 {
+  animation-delay: 0.5s, 2.5s;
+}
+#a-1 {
+  animation-delay: 0.6s, 2.5s;
+}
+#t-1 {
+  animation-delay: 0.8s, 2.5s;
+}
 
-/* --- Staggering the animation delays for each letter --- */
-/* The delays are for (draw animation, fill animation) */
-/* Note: The 'F' path was missing from the original SVG, so its animation rule has been removed. */
-#w-1 { animation-delay: 0.1s, 2.5s; }
-#o-1 { animation-delay: 0.2s, 2.5s; }
-#r-1 { animation-delay: 0.3s, 2.5s; }
-#c-1 { animation-delay: 0.4s, 2.5s; }
-#r-2 { animation-delay: 0.5s, 2.5s; }
-#a-1 { animation-delay: 0.6s, 2.5s; }
-#t-1 { animation-delay: 0.8s, 2.5s; }
+#p-1 {
+  animation-delay: 1.2s, 2.5s;
+}
+#o-2 {
+  animation-delay: 1.3s, 2.5s;
+}
+#w-2 {
+  animation-delay: 1.4s, 2.5s;
+}
+#e-1 {
+  animation-delay: 1.5s, 2.5s;
+}
+#r-3 {
+  animation-delay: 1.6s, 2.5s;
+}
+#t-2 {
+  animation-delay: 1.8s, 2.5s;
+}
+#o-3 {
+  animation-delay: 1.9s, 2.5s;
+}
+#o-4 {
+  animation-delay: 2s, 2.5s;
+}
+#l-1 {
+  animation-delay: 2.1s, 2.5s;
+}
+#s-1 {
+  animation-delay: 2.2s, 2.5s;
+}
 
-/* Delays for POWER TOOLS */
-#p-1 { animation-delay: 1.2s, 2.5s; }
-#o-2 { animation-delay: 1.3s, 2.5s; }
-#w-2 { animation-delay: 1.4s, 2.5s; }
-#e-1 { animation-delay: 1.5s, 2.5s; }
-#r-3 { animation-delay: 1.6s, 2.5s; }
-#t-2 { animation-delay: 1.8s, 2.5s; }
-#o-3 { animation-delay: 1.9s, 2.5s; }
-#o-4 { animation-delay: 2.0s, 2.5s; }
-#l-1 { animation-delay: 2.1s, 2.5s; }
-#s-1 { animation-delay: 2.2s, 2.5s; }
+:root {
+  --handle-red: #d9534f;
+  --handle-red-hover: #e16a66;
+  --dark-blue-border: #2c3e50;
+  --background-color: #f0f2f5;
+  --white: #ffffff;
+
+  --turn-duration: 400ms;
+  --wiggle-duration: 250ms;
+  --total-animation-time: 5000ms;
+  --final-scale: 0.65;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--background-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.master-container {
+  position: relative;
+  padding: 30px;
+}
+
+#central-content-box {
+  width: 50vw;
+  max-width: 600px;
+  min-height: 300px;
+  background-color: var(--white);
+  border: 2px solid #dfe4ea;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #a4b0be;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.screw-assembly {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+}
+
+.screw-assembly.top-left {
+  top: 0;
+  left: 0;
+}
+.screw-assembly.top-right {
+  top: 0;
+  right: 0;
+}
+.screw-assembly.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+.screw-assembly.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+@keyframes smooth-shrink {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(var(--final-scale));
+  }
+}
+
+.shrinking-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.shrinking-wrapper.is-shrinking {
+  animation: smooth-shrink var(--total-animation-time) ease-out forwards;
+}
+
+.screw-container {
+  width: 100%;
+  height: 100%;
+  border: 4px solid var(--dark-blue-border);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  box-shadow: 0 4px 15px rgba(44, 62, 80, 0.15);
+}
+
+.screw-head {
+  width: 75%;
+  height: 75%;
+  position: relative;
+  transition: transform var(--turn-duration)
+    cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.screw-head svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+.screw-head svg path {
+  fill: var(--handle-red);
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.screw-container.wiggling {
+  animation: wiggle var(--wiggle-duration) ease-in-out;
+}
+
+.controls button {
+  font-weight: 600;
+  color: var(--white);
+  background-color: var(--handle-red);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 5px 15px rgba(217, 83, 79, 0.3);
+  padding: 15px 35px;
+  font-size: 18px;
+}
+
+.controls button:hover {
+  background-color: var(--handle-red-hover);
+  box-shadow: 0 7px 20px rgba(217, 83, 79, 0.4);
+  transform: translateY(-2px);
+}
+.controls button:active {
+  transform: translateY(1px) scale(0.98);
+}
+#resetBtn {
+  display: none;
+}
