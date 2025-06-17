@@ -1,0 +1,84 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #ffffff2b; /* Black background */
+    margin: 0;
+    overflow: hidden;
+}
+
+.logo-container svg {
+    width: 90%;
+    max-width: 800px;
+    height: auto;
+}
+
+/* This is the base style for ALL paths */
+.logo-stroke {
+    /* --- DRAWING STYLES --- */
+    stroke: #000000;      /* The drawing outline for ALL letters is WHITE */
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    
+    /* --- FILL STYLES --- */
+    fill: #a21b2d;        /* The DEFAULT fill color is RED (for WORCRAFT) */
+    fill-opacity: 0;      /* Start with the fill being invisible */
+
+    /* --- ANIMATION SETUP --- */
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+    animation: 
+        draw 1.5s ease-in-out forwards,
+        fillIn 0.5s ease-out forwards 2.5s;
+}
+
+/* 
+  --- THIS IS THE KEY CHANGE ---
+  This rule targets ONLY the paths with the 'sub' class (POWER TOOLS)
+  and overrides their fill color and stroke width.
+*/
+.logo-stroke.sub {
+     fill: #5e5e5e;      /* Override the fill color to GRAY for POWER TOOLS */
+     stroke-width: 1;    /* Make the line slightly thinner */
+}
+
+
+/* Animation 1: Draws the stroke */
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Animation 2: Fills the shape with color */
+@keyframes fillIn {
+    to {
+        fill-opacity: 1; /* Animate to a visible fill */
+    }
+}
+
+
+/* --- Staggering the animation delays for each letter --- */
+/* The delays are for (draw animation, fill animation) */
+/* Note: The 'F' path was missing from the original SVG, so its animation rule has been removed. */
+#w-1 { animation-delay: 0.1s, 2.5s; }
+#o-1 { animation-delay: 0.2s, 2.5s; }
+#r-1 { animation-delay: 0.3s, 2.5s; }
+#c-1 { animation-delay: 0.4s, 2.5s; }
+#r-2 { animation-delay: 0.5s, 2.5s; }
+#a-1 { animation-delay: 0.6s, 2.5s; }
+#t-1 { animation-delay: 0.8s, 2.5s; }
+
+/* Delays for POWER TOOLS */
+#p-1 { animation-delay: 1.2s, 2.5s; }
+#o-2 { animation-delay: 1.3s, 2.5s; }
+#w-2 { animation-delay: 1.4s, 2.5s; }
+#e-1 { animation-delay: 1.5s, 2.5s; }
+#r-3 { animation-delay: 1.6s, 2.5s; }
+#t-2 { animation-delay: 1.8s, 2.5s; }
+#o-3 { animation-delay: 1.9s, 2.5s; }
+#o-4 { animation-delay: 2.0s, 2.5s; }
+#l-1 { animation-delay: 2.1s, 2.5s; }
+#s-1 { animation-delay: 2.2s, 2.5s; }
