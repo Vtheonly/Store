@@ -1,9 +1,18 @@
-
 [
   {
+    "id": 1,
+    "image": "https://mabricole.com.dz/9576-large_default/ponceuse-vibrante-200w-worcraft-fs-200.jpg",
+    "tags": ["Nouveau", "Exclusif"],
+    "name": "Ponceuse Vibrante Worcraft 200W",
+    "price": "7500",
+    "originalPrice": "8900",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 150
+  },
+  {
     "id": 2,
-    "image":
-      "https://mabricole.com.dz/9234-large_default/scie-circulaire-a-bois-185mm-1300w-worcraft-cs13-185.jpg",
+    "image": "https://mabricole.com.dz/9234-large_default/scie-circulaire-a-bois-185mm-1300w-worcraft-cs13-185.jpg",
     "tags": ["Promotion", "Professionnel"],
     "name": "Scie Circulaire Worcraft 185mm",
     "price": "14999",
@@ -14,11 +23,10 @@
   },
   {
     "id": 3,
-    "image":
-      "https://mabricole.com.dz/10325-large_default/meuleuse-angle-115mm-500w-worcraft-ag10-115s.jpg",
+    "image": "https://mabricole.com.dz/10325-large_default/meuleuse-angle-115mm-500w-worcraft-ag10-115s.jpg",
     "tags": ["Compact", "Nouveau"],
     "name": "Meuleuse d'Angle Worcraft 115mm",
-    "price": "8999",
+    "price": "8909",
     "originalPrice": "10999",
     "currency": "DA",
     "stockStatus": "En Stock",
@@ -26,10 +34,9 @@
   },
   {
     "id": 4,
-    "image":
-      "https://mabricole.com.dz/10051-large_default/perceuse-visseuse-sans-fil-12v-avec-accessoires.jpg",
+    "image": "https://mabricole.com.dz/10051-large_default/perceuse-visseuse-sans-fil-12v-avec-accessoires.jpg",
     "tags": ["Sans Fil", "Kit", "Complet"],
-    "name": "Viseuse Sans Fil 12V + Kit",
+    "name": "Visseuse Sans Fil 12V + Kit",
     "price": "11999",
     "originalPrice": "15000",
     "currency": "DA",
@@ -38,8 +45,7 @@
   },
   {
     "id": 5,
-    "image":
-      "https://mabricole.com.dz/9583-large_default/perforateur-burineur-1500w-40mm-worcraft-rh15-40x.jpg",
+    "image": "https://mabricole.com.dz/9583-large_default/perforateur-burineur-1500w-40mm-worcraft-rh15-40x.jpg",
     "tags": ["Puissant", "Usage Intensif"],
     "name": "Perforateur Burineur 1500W",
     "price": "24500",
@@ -47,6 +53,170 @@
     "currency": "DA",
     "stockStatus": "En Stock",
     "soldCount": 118
+  },
+  {
+    "id": 6,
+    "image": "https://mabricole.com.dz/9664-large_default/scie-sauteuse-sans-fil-20v-worcraft-cjs-s20li.jpg",
+    "tags": ["Nouveau", "Sans Fil"],
+    "name": "Scie Sauteuse Sans Fil 20V",
+    "price": "9800",
+    "originalPrice": "11500",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 220
+  },
+  {
+    "id": 7,
+    "image": "https://mabricole.com.dz/10202-large_default/pistolet-a-peinture-electrique-500w-worcraft-esg-500.jpg",
+    "tags": ["Promotion", "Exclusif"],
+    "name": "Pistolet à Peinture Électrique 500W",
+    "price": "12500",
+    "originalPrice": "16000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 350
+  },
+  {
+    "id": 8,
+    "image": "https://mabricole.com.dz/10186-large_default/cle-a-choc-sans-fil-20v-250nm-worcraft-ciw-s20li.jpg",
+    "tags": ["Sans Fil", "Puissant"],
+    "name": "Clé à Choc Sans Fil 20V 250Nm",
+    "price": "19900",
+    "originalPrice": "22000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 480
+  },
+  {
+    "id": 9,
+    "image": "https://mabricole.com.dz/9580-large_default/decapeur-thermique-2000w-worcraft-hg20-600.jpg",
+    "tags": ["Professionnel"],
+    "name": "Décapeur Thermique 2000W",
+    "price": "6200",
+    "originalPrice": "7500",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 95
+  },
+  {
+    "id": 10,
+    "image": "https://mabricole.com.dz/9946-large_default/niveau-laser-a-2-lignes-worcraft-ll02-g.jpg",
+    "tags": ["Nouveau", "Précision"],
+    "name": "Niveau Laser Vert à 2 Lignes",
+    "price": "13500",
+    "originalPrice": "15000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 180
+  },
+  {
+    "id": 11,
+    "image": "https://mabricole.com.dz/9662-large_default/chargeur-double-20v-worcraft-cfc-s20li-d.jpg",
+    "tags": ["Accessoire", "Sans Fil"],
+    "name": "Chargeur Double pour Batteries 20V",
+    "price": "4500",
+    "originalPrice": "5000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 850
+  },
+  {
+    "id": 12,
+    "image": "https://mabricole.com.dz/9938-large_default/compresseur-d-air-50l-1500w-worcraft-ac15-50.jpg",
+    "tags": ["Promotion", "Puissant"],
+    "name": "Compresseur d'Air 50L 1500W",
+    "price": "34000",
+    "originalPrice": "39500",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 75
+  },
+  {
+    "id": 13,
+    "image": "https://mabricole.com.dz/10328-large_default/scie-a-onglet-radiale-210mm-1400w-worcraft-ms14-210.jpg",
+    "tags": ["Professionnel", "Précision"],
+    "name": "Scie à Onglet Radiale 210mm",
+    "price": "28500",
+    "originalPrice": "32000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 110
+  },
+  {
+    "id": 14,
+    "image": "https://mabricole.com.dz/9569-large_default/perceuse-a-percussion-710w-worcraft-id-710.jpg",
+    "tags": ["Promotion", "Compact"],
+    "name": "Perceuse à Percussion 710W",
+    "price": "5900",
+    "originalPrice": "7200",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 560
+  },
+  {
+    "id": 15,
+    "image": "https://mabricole.com.dz/10188-large_default/souffleur-de-feuilles-sans-fil-20v-worcraft-clb-s20li.jpg",
+    "tags": ["Nouveau", "Sans Fil", "Jardin"],
+    "name": "Souffleur de Feuilles Sans Fil 20V",
+    "price": "8800",
+    "originalPrice": "9900",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 130
+  },
+  {
+    "id": 16,
+    "image": "https://mabricole.com.dz/10049-large_default/poste-a-souder-onduleur-160a-worcraft-stick-160.jpg",
+    "tags": ["Exclusif", "Puissant"],
+    "name": "Poste à Souder Onduleur 160A",
+    "price": "21000",
+    "originalPrice": "25000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 215
+  },
+  {
+    "id": 17,
+    "image": "https://mabricole.com.dz/10332-large_default/multimetre-digital-worcraft-dm-300.jpg",
+    "tags": ["Accessoire", "Précision"],
+    "name": "Multimètre Digital Worcraft DM-300",
+    "price": "3200",
+    "originalPrice": "3800",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 920
+  },
+  {
+    "id": 18,
+    "image": "https://mabricole.com.dz/10190-large_default/tronconneuse-a-chaine-sans-fil-20v-worcraft-cgc-s20li.jpg",
+    "tags": ["Nouveau", "Sans Fil", "Jardin"],
+    "name": "Tronçonneuse à Chaine Sans Fil 20V",
+    "price": "15500",
+    "originalPrice": "18000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 85
+  },
+  {
+    "id": 19,
+    "image": "https://mabricole.com.dz/10324-large_default/visseuse-a-placo-sans-fil-20v-worcraft-cds-s20li.jpg",
+    "tags": ["Promotion", "Sans Fil", "Professionnel"],
+    "name": "Visseuse à Placo Sans Fil 20V",
+    "price": "14000",
+    "originalPrice": "16500",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 310
+  },
+  {
+    "id": 20,
+    "image": "https://mabricole.com.dz/10185-large_default/coffret-d-outils-108-pieces-worcraft-tc-108.jpg",
+    "tags": ["Exclusif", "Kit", "Complet"],
+    "name": "Coffret d'Outils Complet 108 Pièces",
+    "price": "18900",
+    "originalPrice": "21000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 720
   }
 ]
-

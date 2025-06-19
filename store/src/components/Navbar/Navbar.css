@@ -1,7 +1,4 @@
-/* src/components/Navbar/Navbar.css */
-
 .navbar {
-  /* THIS IS THE FIX: Use the new theme variable for the background */
   background-color: var(--bg-navbar);
   height: 80px;
   display: flex;
@@ -11,9 +8,9 @@
   position: sticky;
   top: 0;
   z-index: 999;
-  /* Use the theme's border color for the bottom line */
+
   border-bottom: 1px solid var(--border-color);
-  transition: background-color 0.2s; /* Add transition for smooth theme changes */
+  transition: background-color 0.2s;
 }
 
 .navbar-container {
@@ -27,7 +24,6 @@
 }
 
 .navbar-logo {
-  /* Use the primary text color from the theme */
   color: var(--text-primary);
   text-decoration: none;
   font-size: 1.8rem;
@@ -57,7 +53,7 @@
 .nav-icon-btn {
   background: none;
   border: none;
-  /* Use the secondary text color from the theme */
+
   color: var(--text-secondary);
   cursor: pointer;
   padding: 0.5rem;
@@ -70,24 +66,22 @@
   color: var(--accent-red);
 }
 
-/* --- Search Bar Styles --- */
 .search-bar-container {
-  /* Use the search bar background color from the theme */
   background-color: var(--bg-search-bar);
   position: sticky;
-  top: 80px; /* Stick below the navbar */
+  top: 80px;
   z-index: 998;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out,
     background-color 0.2s;
-  border-bottom: 1px solid transparent; /* Prepare for a border */
+  border-bottom: 1px solid transparent;
 }
 
 .search-bar-container.visible {
   max-height: 300px;
   padding: 1rem 0;
-  border-bottom: 1px solid var(--border-color); /* Add border when visible */
+  border-bottom: 1px solid var(--border-color);
 }
 
 .search-bar,
@@ -121,7 +115,7 @@
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
-  /* Use secondary background for inputs */
+
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   outline: none;

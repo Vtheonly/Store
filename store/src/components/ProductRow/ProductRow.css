@@ -1,0 +1,72 @@
+/* src/components/ProductRow/ProductRow.css */
+
+.product-row-container {
+  margin-bottom: 3rem;
+}
+
+.product-row-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+}
+
+/* New wrapper to position arrows relative to */
+.product-row-wrapper {
+  position: relative;
+}
+
+.product-row-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 2rem;
+  padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+  /* Make scrolling "snap" to the start of each card for a better feel */
+  scroll-snap-type: x mandatory;
+  /* Hide the default scrollbar since we have arrows */
+  scrollbar-width: none; /* For Firefox */
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.product-row-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* This is needed for the scroll-snap-type to work properly on children */
+.product-row-scroll > * {
+  scroll-snap-align: start;
+}
+
+/* Arrow button styles */
+.scroll-arrow {
+  position: absolute;
+  top: 45%; /* Adjust vertical position to align with cards */
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: rgba(45, 55, 72, 0.8); /* Semi-transparent background */
+  color: var(--text-on-accent);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  backdrop-filter: blur(4px); /* Nice "glass" effect */
+}
+
+.scroll-arrow:hover {
+  background-color: var(--accent-red);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-arrow.prev {
+  left: 1rem;
+}
+
+.scroll-arrow.next {
+  right: 1rem;
+}
