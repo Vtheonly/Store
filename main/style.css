@@ -9,95 +9,12 @@ body {
   overflow: hidden;
 }
 
-.logo-container svg {
+.logo-container .logo-svg {
   scale: 1.8;
   width: 90%;
   max-width: 800px;
   height: auto;
-}
-
-.logo-stroke {
-  stroke: #000000;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-
-  fill: #a21b2d;
-  fill-opacity: 0;
-
-  stroke-dasharray: 1500;
-  stroke-dashoffset: 1500;
-  animation: draw 1.5s ease-in-out forwards, fillIn 0.5s ease-out forwards 2.5s;
-}
-
-.logo-stroke.sub {
-  fill: #5e5e5e;
-  stroke-width: 1;
-}
-
-@keyframes draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes fillIn {
-  to {
-    fill-opacity: 1;
-  }
-}
-
-#w-1 {
-  animation-delay: 0.1s, 2.5s;
-}
-#o-1 {
-  animation-delay: 0.2s, 2.5s;
-}
-#r-1 {
-  animation-delay: 0.3s, 2.5s;
-}
-#c-1 {
-  animation-delay: 0.4s, 2.5s;
-}
-#r-2 {
-  animation-delay: 0.5s, 2.5s;
-}
-#a-1 {
-  animation-delay: 0.6s, 2.5s;
-}
-#t-1 {
-  animation-delay: 0.8s, 2.5s;
-}
-
-#p-1 {
-  animation-delay: 1.2s, 2.5s;
-}
-#o-2 {
-  animation-delay: 1.3s, 2.5s;
-}
-#w-2 {
-  animation-delay: 1.4s, 2.5s;
-}
-#e-1 {
-  animation-delay: 1.5s, 2.5s;
-}
-#r-3 {
-  animation-delay: 1.6s, 2.5s;
-}
-#t-2 {
-  animation-delay: 1.8s, 2.5s;
-}
-#o-3 {
-  animation-delay: 1.9s, 2.5s;
-}
-#o-4 {
-  animation-delay: 2s, 2.5s;
-}
-#l-1 {
-  animation-delay: 2.1s, 2.5s;
-}
-#s-1 {
-  animation-delay: 2.2s, 2.5s;
+  pointer-events: none;
 }
 
 :root {
@@ -158,14 +75,17 @@ body {
   top: 0;
   left: 0;
 }
+
 .screw-assembly.top-right {
   top: 0;
   right: 0;
 }
+
 .screw-assembly.bottom-left {
   bottom: 0;
   left: 0;
 }
+
 .screw-assembly.bottom-right {
   bottom: 0;
   right: 0;
@@ -175,6 +95,7 @@ body {
   from {
     transform: scale(1);
   }
+
   to {
     transform: scale(var(--final-scale));
   }
@@ -209,28 +130,30 @@ body {
     cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
-.screw-head svg {
+.screw-head object {
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
-}
-.screw-head svg path {
-  fill: var(--handle-red);
+  pointer-events: none;
 }
 
 @keyframes wiggle {
   0% {
     transform: rotate(0deg);
   }
+
   25% {
     transform: rotate(-5deg);
   }
+
   50% {
     transform: rotate(5deg);
   }
+
   75% {
     transform: rotate(-2deg);
   }
+
   100% {
     transform: rotate(0deg);
   }
@@ -258,9 +181,11 @@ body {
   box-shadow: 0 7px 20px rgba(217, 83, 79, 0.4);
   transform: translateY(-2px);
 }
+
 .controls button:active {
   transform: translateY(1px) scale(0.98);
 }
+
 #resetBtn {
   display: none;
 }

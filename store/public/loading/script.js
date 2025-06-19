@@ -1,8 +1,8 @@
 const allScrews = document.querySelectorAll(".screw-assembly");
-const startBtn = document.getElementById("startBtn");
-const resetBtn = document.getElementById("resetBtn");
+const allSvgObjects = document.querySelectorAll("object");
+const loaderContainer = document.getElementById("loader-container");
+const masterContainer = document.querySelector(".master-container");
 
-let isAnimating = false;
 const totalTurns = 8;
 const turnAngle = 90;
 
@@ -35,12 +35,6 @@ function turnOneScrew(screwElement) {
 }
 
 function startAll() {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  startBtn.style.display = "none";
-  resetBtn.style.display = "inline-block";
-
   allScrews.forEach((screw, index) => {
     const wrapper = screw.querySelector(".shrinking-wrapper");
     wrapper.classList.add("is-shrinking");
@@ -49,31 +43,32 @@ function startAll() {
       turnOneScrew(screw);
     }, index * 150);
   });
+
+  setTimeout(() => {
+    window.parent.postMessage("loading_finished", "*");
+  }, 6000);
 }
 
-function resetAll() {
-  isAnimating = false;
-  startBtn.style.display = "inline-block";
-  resetBtn.style.display = "none";
+let assetsLoaded = 0;
+const totalAssets = allSvgObjects.length;
 
-  allScrews.forEach((screw) => {
-    const wrapper = screw.querySelector(".shrinking-wrapper");
-    const screwHead = screw.querySelector(".screw-head");
+function onAssetLoad() {
+  assetsLoaded++;
 
-    screw.dataset.rotation = 0;
-    screw.dataset.turns = 0;
+  if (assetsLoaded === totalAssets) {
+    loaderContainer.classList.add("hidden");
 
-    wrapper.classList.remove("is-shrinking");
+    masterContainer.classList.remove("hidden");
 
-    screwHead.style.transition = "none";
-    screwHead.style.transform = "rotate(0deg)";
+    startAll();
+  }
+}
 
-    setTimeout(() => {
-      screwHead.style.transition = `transform var(--turn-duration) cubic-bezier(0.68, -0.55, 0.27, 1.55)`;
-    }, 50);
+if (totalAssets === 0) {
+  onAssetLoad();
+} else {
+  allSvgObjects.forEach((obj) => {
+    obj.addEventListener("load", onAssetLoad);
+    obj.addEventListener("error", onAssetLoad);
   });
 }
-
-startAll();
-startBtn.addEventListener("click", startAll);
-resetBtn.addEventListener("click", resetAll);
