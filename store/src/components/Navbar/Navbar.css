@@ -1,0 +1,153 @@
+/* src/components/Navbar/Navbar.css */
+
+.navbar {
+  background-color: var(--black-base);
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid var(--border-color-dark);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+}
+
+.navbar-logo {
+  color: var(--white-base);
+  text-decoration: none;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: var(--silver-light);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  color: var(--primary-red);
+}
+
+.nav-icon-btn {
+  background: none;
+  border: none;
+  color: var(--silver-light);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-icon-btn:hover {
+  color: var(--primary-red);
+}
+
+/* --- Search Bar Styles --- */
+.search-bar-container {
+  background-color: #2d3748; /* Slightly lighter than black-base */
+  position: sticky;
+  top: 80px; /* Stick below the navbar */
+  z-index: 998;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+}
+
+.search-bar-container.visible {
+  max-height: 300px; /* Large enough to hold content */
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color-dark);
+}
+
+.search-bar,
+.advanced-filters {
+  display: flex;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.advanced-filters {
+  overflow: hidden;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  transition: max-height 0.3s ease-in-out, margin 0.3s ease-in-out,
+    padding 0.3s ease-in-out;
+}
+
+.advanced-filters.visible {
+  max-height: 100px;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+}
+
+.search-input,
+.filter-input {
+  padding: 12px 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color-dark);
+  background-color: var(--black-base);
+  color: var(--white-base);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus,
+.filter-input:focus {
+  border-color: var(--primary-red);
+}
+
+.search-input {
+  flex-grow: 1;
+}
+
+.tags-input {
+  flex-grow: 1;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--silver-dark);
+  background-color: transparent;
+  color: var(--silver-light);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-btn:hover {
+  background-color: var(--silver-dark);
+  color: var(--white-base);
+}

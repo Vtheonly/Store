@@ -6,7 +6,7 @@ body {
   background-color: #ffffff2b;
 
   margin: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .logo-container .logo-svg {

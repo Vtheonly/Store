@@ -1,44 +1,41 @@
-/* src/index.css */
-
-/* --- Global Styles & Variables --- */
 :root {
-  --primary-blue: #2563eb;
-  --gradient-start: #a855f7;
-  --gradient-end: #ec4899;
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --bg-light: #f9fafb;
-  --bg-white: #ffffff;
-  --border-color: #e5e7eb;
+  --primary-red: #e53e3e;
+  --secondary-red-dark: #c53030;
+  --black-base: #f0f2f5;
+;
+  --white-base: #ffffff;
+  --silver-light: #a0aec0;
+  --silver-dark: #718096;
+  --border-color-dark: #4a5568;
   --success-green: #22c55e;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
+  background-color: var(--black-base);
+  color: var(--white-base);
 }
 
-/* --- Loading Screen Styles --- */
 .loading-screen {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--bg-white);
+  background-color: var(--black-base);
+  color: var(--silver-light);
 }
 
 .spinner {
   width: 50px;
   height: 50px;
-  border: 5px solid var(--border-color);
-  border-top-color: var(--primary-blue);
+  border: 5px solid var(--silver-dark);
+  border-top-color: var(--primary-red);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
@@ -52,10 +49,9 @@ body {
 
 .loading-screen p {
   font-size: 1.2rem;
-  color: var(--text-light);
+  color: var(--silver-light);
 }
 
-/* --- Store Layout --- */
 .store-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -70,11 +66,12 @@ body {
 .store-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
+  color: var(--white-base);
 }
 
 .store-header p {
   font-size: 1.1rem;
-  color: var(--text-light);
+  color: var(--silver-light);
 }
 
 .product-grid {
@@ -83,32 +80,39 @@ body {
   gap: 2rem;
 }
 
-/* --- Product Card Styles --- */
 .product-card {
-  background-color: var(--bg-white);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background-color: var(--black-base);
+  border: 1px solid var(--border-color-dark);
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
+  border-left: 3px solid var(--primary-red);
+  border-bottom: 3px solid var(--primary-red);
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
 }
 
 .product-image-container {
   position: relative;
-  background-color: #f0f0f0;
+  background-color: var(--silver-dark);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  border-bottom: 1px solid var(--border-color-dark);
 }
 
 .product-image {
   width: 100%;
-  height: 250px;
-  object-fit: contain; /* Use 'contain' to see the whole image */
+  height: 100%;
+  object-fit: contain;
   display: block;
 }
 
@@ -121,27 +125,28 @@ body {
 }
 
 .tag {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: var(--text-dark);
+  background-color: var(--primary-red);
+  color: var(--white-base);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .product-info {
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Makes the info section fill the space */
+  flex-grow: 1;
+  background-color: var(--black-base);
 }
 
 .product-name {
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0 0 0.5rem;
-  color: var(--text-dark);
+  color: var(--white-base);
 }
 
 .product-price {
@@ -154,12 +159,12 @@ body {
 .current-price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--primary-red);
 }
 
 .original-price {
   font-size: 1rem;
-  color: var(--text-light);
+  color: var(--silver-light);
   text-decoration: line-through;
 }
 
@@ -168,7 +173,7 @@ body {
   justify-content: space-between;
   align-items: center;
   font-size: 0.875rem;
-  color: var(--text-light);
+  color: var(--silver-light);
   margin-bottom: 1.5rem;
 }
 
@@ -180,19 +185,26 @@ body {
   margin-right: 6px;
 }
 
-.green-dot { background-color: var(--success-green); }
-.blue-dot { background-color: var(--primary-blue); }
+.green-dot {
+  background-color: var(--success-green);
+}
+.blue-dot {
+  background-color: var(--silver-light);
+}
 
-.stock-status, .sold-count {
+.stock-status,
+.sold-count {
   display: flex;
   align-items: center;
 }
 
 .product-actions {
-  margin-top: auto; /* Pushes buttons to the bottom */
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color-dark);
 }
 
 .btn {
@@ -203,23 +215,54 @@ body {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background-color 0.2s, color 0.2s, transform 0.1s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn:hover {
   opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .btn-inspect {
-  background-color: var(--primary-blue);
-  color: white;
+  background-color: var(--black-base);
+  color: var(--primary-red);
+  border: 2px solid var(--primary-red);
+}
+
+.btn-inspect:hover {
+  background-color: var(--primary-red);
+  color: var(--white-base);
 }
 
 .btn-reel {
-  background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-  color: white;
+  background: var(--primary-red);
+  color: var(--white-base);
+  border: 2px solid var(--primary-red);
+}
+
+.btn-reel:hover {
+  background-color: var(--secondary-red-dark);
+  border-color: var(--secondary-red-dark);
+}
+
+.btn svg {
+  fill: currentColor;
+}
+
+.store-container {
+  padding-top: 2rem !important;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--silver-light);
+  padding: 4rem 0;
 }

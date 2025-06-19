@@ -1,0 +1,52 @@
+
+[
+  {
+    "id": 2,
+    "image":
+      "https://mabricole.com.dz/9234-large_default/scie-circulaire-a-bois-185mm-1300w-worcraft-cs13-185.jpg",
+    "tags": ["Promotion", "Professionnel"],
+    "name": "Scie Circulaire Worcraft 185mm",
+    "price": "14999",
+    "originalPrice": "18500",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 412
+  },
+  {
+    "id": 3,
+    "image":
+      "https://mabricole.com.dz/10325-large_default/meuleuse-angle-115mm-500w-worcraft-ag10-115s.jpg",
+    "tags": ["Compact", "Nouveau"],
+    "name": "Meuleuse d'Angle Worcraft 115mm",
+    "price": "8999",
+    "originalPrice": "10999",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 295
+  },
+  {
+    "id": 4,
+    "image":
+      "https://mabricole.com.dz/10051-large_default/perceuse-visseuse-sans-fil-12v-avec-accessoires.jpg",
+    "tags": ["Sans Fil", "Kit", "Complet"],
+    "name": "Viseuse Sans Fil 12V + Kit",
+    "price": "11999",
+    "originalPrice": "15000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 689
+  },
+  {
+    "id": 5,
+    "image":
+      "https://mabricole.com.dz/9583-large_default/perforateur-burineur-1500w-40mm-worcraft-rh15-40x.jpg",
+    "tags": ["Puissant", "Usage Intensif"],
+    "name": "Perforateur Burineur 1500W",
+    "price": "24500",
+    "originalPrice": "30000",
+    "currency": "DA",
+    "stockStatus": "En Stock",
+    "soldCount": 118
+  }
+]
+
