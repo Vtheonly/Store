@@ -1,10 +1,14 @@
+// src/App.jsx
+
 import React, { useState, useEffect } from "react";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import ProductCard from "./components/ProductCard";
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer"; // Re-add Footer
 import "./index.css";
 import "./components/Navbar/Navbar.css";
-import stock from "./../public/data/stock.json";
+import "./components/Footer/Footer.css"; // Import Footer styles
+import stock from "../public/data/stock.json";
 
 const allProducts = stock;
 
@@ -20,35 +24,29 @@ function App() {
 
   useEffect(() => {
     let products = [...allProducts];
-
     if (filters.searchTerm) {
       products = products.filter((p) =>
         p.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
       );
     }
-
     if (filters.minPrice) {
       products = products.filter((p) => p.price >= Number(filters.minPrice));
     }
-
     if (filters.maxPrice) {
       products = products.filter((p) => p.price <= Number(filters.maxPrice));
     }
-
     if (filters.tags) {
       const searchTags = filters.tags.toLowerCase().split(" ").filter(Boolean);
       products = products.filter((p) =>
-        searchTags.every((searchTag) =>
-          p.tags.some((productTag) =>
-            productTag.toLowerCase().includes(searchTag)
-          )
+        searchTags.every((st) =>
+          p.tags.some((pt) => pt.toLowerCase().includes(st))
         )
       );
     }
-
     setFilteredProducts(products);
   }, [filters]);
 
+  // Your original loading timer
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -62,7 +60,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app-wrapper">
       <Navbar onFilterChange={setFilters} />
       <div className="store-container">
         <header className="store-header">
@@ -79,7 +77,8 @@ function App() {
           )}
         </main>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 

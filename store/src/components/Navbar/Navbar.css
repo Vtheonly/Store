@@ -1,7 +1,8 @@
 /* src/components/Navbar/Navbar.css */
 
 .navbar {
-  background-color: var(--black-base);
+  /* THIS IS THE FIX: Use the new theme variable for the background */
+  background-color: var(--bg-navbar);
   height: 80px;
   display: flex;
   justify-content: center;
@@ -10,7 +11,9 @@
   position: sticky;
   top: 0;
   z-index: 999;
-  border-bottom: 1px solid var(--border-color-dark);
+  /* Use the theme's border color for the bottom line */
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s; /* Add transition for smooth theme changes */
 }
 
 .navbar-container {
@@ -24,7 +27,8 @@
 }
 
 .navbar-logo {
-  color: var(--white-base);
+  /* Use the primary text color from the theme */
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 1.8rem;
   font-weight: 700;
@@ -40,20 +44,21 @@
 }
 
 .nav-link {
-  color: var(--silver-light);
+  color: var(--text-light);
   text-decoration: none;
   padding: 0.5rem 1rem;
   transition: color 0.2s ease-in-out;
 }
 
 .nav-link:hover {
-  color: var(--primary-red);
+  color: var(--accent-red);
 }
 
 .nav-icon-btn {
   background: none;
   border: none;
-  color: var(--silver-light);
+  /* Use the secondary text color from the theme */
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 0.5rem;
   display: flex;
@@ -62,24 +67,27 @@
 }
 
 .nav-icon-btn:hover {
-  color: var(--primary-red);
+  color: var(--accent-red);
 }
 
 /* --- Search Bar Styles --- */
 .search-bar-container {
-  background-color: #2d3748; /* Slightly lighter than black-base */
+  /* Use the search bar background color from the theme */
+  background-color: var(--bg-search-bar);
   position: sticky;
   top: 80px; /* Stick below the navbar */
   z-index: 998;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+  transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out,
+    background-color 0.2s;
+  border-bottom: 1px solid transparent; /* Prepare for a border */
 }
 
 .search-bar-container.visible {
-  max-height: 300px; /* Large enough to hold content */
+  max-height: 300px;
   padding: 1rem 0;
-  border-bottom: 1px solid var(--border-color-dark);
+  border-bottom: 1px solid var(--border-color); /* Add border when visible */
 }
 
 .search-bar,
@@ -112,16 +120,17 @@
   padding: 12px 15px;
   font-size: 1rem;
   border-radius: 8px;
-  border: 1px solid var(--border-color-dark);
-  background-color: var(--black-base);
-  color: var(--white-base);
+  border: 1px solid var(--border-color);
+  /* Use secondary background for inputs */
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 
 .search-input:focus,
 .filter-input:focus {
-  border-color: var(--primary-red);
+  border-color: var(--accent-red);
 }
 
 .search-input {
@@ -140,14 +149,14 @@
   font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
-  border: 1px solid var(--silver-dark);
+  border: 1px solid var(--border-color);
   background-color: transparent;
-  color: var(--silver-light);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
 }
 
 .filter-btn:hover {
-  background-color: var(--silver-dark);
-  color: var(--white-base);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }

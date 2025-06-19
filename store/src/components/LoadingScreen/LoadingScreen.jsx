@@ -1,30 +1,25 @@
-import React, { useEffect } from 'react';
-import './LoadingScreen.css';
+// src/components/LoadingScreen/LoadingScreen.jsx
 
-const LoadingScreen = ({ onFinished }) => {
+import React, { useEffect } from "react";
+import "./LoadingScreen.css";
 
+const LoadingScreen = () => {
+  // This effect runs when the component is first rendered (mounts)
   useEffect(() => {
-    // This function will listen for the message from the iframe
-    const handleMessage = (event) => {
-      // Check if the message is the one we expect
-      if (event.data === 'loading_finished') {
-        onFinished(); // Call the function passed from the parent
-      }
-    };
+    // Add a class to the body to disable scrolling
+    document.body.classList.add("loading-active");
 
-    // Add the event listener to the window
-    window.addEventListener('message', handleMessage);
-
-    // IMPORTANT: Clean up the event listener when the component is removed
+    // This is the cleanup function. It runs when the component is removed (unmounts).
     return () => {
-      window.removeEventListener('message', handleMessage);
+      // Remove the class to re-enable scrolling
+      document.body.classList.remove("loading-active");
     };
-  }, [onFinished]); // Rerun the effect if onFinished function changes
+  }, []); // The empty array ensures this effect runs only once on mount and cleanup on unmount
 
   return (
     <div className="iframe-container">
-      <iframe 
-        src="/loading/index.html" 
+      <iframe
+        src="/loading/index.html"
         title="Loading Animation"
         className="loading-iframe"
       />

@@ -1,18 +1,11 @@
-/* Remove any default margin or padding from html and body */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  /* overflow: hidden; Prevent scrollbars */
-  height: 100%;
-  width: 100%;
-}
-
-/* Fullscreen iframe without borders or scrollbars */
 iframe {
   width: 100vw;
   height: 100vh;
   border: none;
   overflow: hidden;
-  display: block; /* Prevent extra space under iframe (especially in some browsers) */
+  display: block;
+}
+
+.iframe-container {
+  background-color: var(--bg-primary);
 }
