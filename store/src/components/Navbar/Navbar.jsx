@@ -1,10 +1,10 @@
 // src/components/Navbar/Navbar.jsx
 
-import React, { useState, useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext"; // Import context
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 import "./Navbar.css";
 
-// Icons
+// Icons (no changes here)
 const SearchIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -51,22 +51,39 @@ const MoonIcon = () => (
 );
 
 const Navbar = ({ onFilterChange }) => {
-  const { theme, toggleTheme } = useContext(ThemeContext); // Use the context
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [tags, setTags] = useState("");
 
-  const handleInputChange = (setter) => (e) => {
-    setter(e.target.value);
-    onFilterChange({
-      searchTerm: e.target.name === "searchTerm" ? e.target.value : searchTerm,
-      minPrice: e.target.name === "minPrice" ? e.target.value : minPrice,
-      maxPrice: e.target.name === "maxPrice" ? e.target.value : maxPrice,
-      tags: e.target.name === "tags" ? e.target.value : tags,
-    });
+  // *** FIXED: Use a single state object for all local filters ***
+  const [localFilters, setLocalFilters] = useState({
+    searchTerm: "",
+    minPrice: "",
+    maxPrice: "",
+    tags: "",
+  });
+
+  // *** FIXED: This effect will watch for changes in localFilters and call the parent prop ***
+  // This avoids the stale state issue and ensures the parent always gets the complete, updated filter object.
+  useEffect(() => {
+    // We use a debounce to avoid sending too many requests while the user is typing.
+    const handler = setTimeout(() => {
+      onFilterChange(localFilters);
+    }, 300); // Wait 300ms after the user stops typing
+
+    // Cleanup function to cancel the timeout if the user types again
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [localFilters, onFilterChange]);
+
+  // *** FIXED: A single, simplified handler for all inputs ***
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLocalFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
   };
 
   return (
@@ -102,15 +119,14 @@ const Navbar = ({ onFilterChange }) => {
       <div
         className={`search-bar-container ${isSearchVisible ? "visible" : ""}`}
       >
-        {/* Search bar JSX remains the same */}
         <div className="search-bar">
           <input
             type="text"
             name="searchTerm"
             placeholder="Search for a product..."
             className="search-input"
-            value={searchTerm}
-            onChange={handleInputChange(setSearchTerm)}
+            value={localFilters.searchTerm} // Use state object
+            onChange={handleInputChange} // Use single handler
           />
           <button
             className="filter-btn"
@@ -126,24 +142,24 @@ const Navbar = ({ onFilterChange }) => {
             name="minPrice"
             placeholder="Min Price (DA)"
             className="filter-input"
-            value={minPrice}
-            onChange={handleInputChange(setMinPrice)}
+            value={localFilters.minPrice} // Use state object
+            onChange={handleInputChange} // Use single handler
           />
           <input
             type="number"
             name="maxPrice"
             placeholder="Max Price (DA)"
             className="filter-input"
-            value={maxPrice}
-            onChange={handleInputChange(setMaxPrice)}
+            value={localFilters.maxPrice} // Use state object
+            onChange={handleInputChange} // Use single handler
           />
           <input
             type="text"
             name="tags"
             placeholder="Tags (e.g. kit puissant)"
             className="filter-input tags-input"
-            value={tags}
-            onChange={handleInputChange(setTags)}
+            value={localFilters.tags} // Use state object
+            onChange={handleInputChange} // Use single handler
           />
         </div>
       </div>

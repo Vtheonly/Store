@@ -34,17 +34,43 @@ const RightArrowIcon = () => (
 );
 
 const ProductRow = ({ title, products }) => {
+  // *** FIXED: ALL HOOKS ARE NOW AT THE TOP LEVEL, BEFORE ANY RETURNS ***
   const scrollContainerRef = useRef(null);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const [canScroll, setCanScroll] = useState(false);
 
-  // If there are no products, don't render the row.
+  useEffect(() => {
+    // This effect checks if the content is wide enough to need scrolling at all
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const checkResize = () => {
+      setCanScroll(el.scrollWidth > el.clientWidth);
+      checkScrollPosition();
+    };
+
+    const observer = new ResizeObserver(checkResize);
+    observer.observe(el);
+    checkResize(); // Initial check
+
+    return () => observer.disconnect();
+  }, [products]); // Re-evaluate when products change
+
+  useEffect(() => {
+    // This effect adds a listener to update arrow visibility during scrolling
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.addEventListener("scroll", checkScrollPosition, { passive: true });
+      return () => el.removeEventListener("scroll", checkScrollPosition);
+    }
+  }, []); // Only runs once on mount
+
+  // *** FIXED: CONDITIONAL RETURN IS NOW AFTER ALL HOOKS HAVE BEEN CALLED ***
   if (!products || products.length === 0) {
     return null;
   }
 
-  // This effect checks if the row is at the beginning or end of its scroll
   const checkScrollPosition = () => {
     const el = scrollContainerRef.current;
     if (el) {
@@ -54,33 +80,9 @@ const ProductRow = ({ title, products }) => {
     }
   };
 
-  // This effect checks if the content is wide enough to need scrolling at all
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
-
-    const observer = new ResizeObserver(() => {
-      setCanScroll(el.scrollWidth > el.clientWidth);
-      checkScrollPosition();
-    });
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [products]); // Re-evaluate when products change
-
-  // This effect adds a listener to update arrow visibility during scrolling
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (el) {
-      el.addEventListener("scroll", checkScrollPosition);
-      return () => el.removeEventListener("scroll", checkScrollPosition);
-    }
-  }, []);
-
   const handleScroll = (direction) => {
     if (scrollContainerRef.current) {
       const { clientWidth } = scrollContainerRef.current;
-      // Scroll by 80% of the visible width for a pleasant experience
       const scrollAmount = clientWidth * 0.8;
       scrollContainerRef.current.scrollBy({
         left: direction === "right" ? scrollAmount : -scrollAmount,

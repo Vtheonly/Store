@@ -1,0 +1,167 @@
+/* src/pages/ProductDetailPage.css */
+
+.product-detail-container {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2.5rem;
+}
+
+/* Left Column: Gallery */
+.product-gallery {
+  grid-column: span 12 / span 12;
+}
+
+/* Right Column: Content */
+.product-content {
+  grid-column: span 12 / span 12;
+}
+
+/* On larger screens, switch to two columns */
+@media (min-width: 992px) {
+  .product-gallery {
+    grid-column: span 7 / span 7;
+  }
+  .product-content {
+    grid-column: span 5 / span 5;
+  }
+}
+
+.main-image-wrapper {
+  background-color: var(--bg-image-container);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  aspect-ratio: 1 / 1; /* Make it a square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.thumbnail-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 1rem;
+}
+
+.thumbnail-item {
+  background-color: var(--bg-image-container);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.thumbnail-item:hover {
+  border-color: var(--accent-red);
+  transform: scale(1.05);
+}
+
+.thumbnail-item.active {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 0 2px var(--accent-red);
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.25rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Content Styles */
+.product-detail-name {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.product-detail-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.product-detail-description,
+.product-specifications {
+  margin-top: 2rem;
+}
+
+.product-detail-description h3,
+.product-specifications h3 {
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.product-detail-description p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.spec-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color-dark);
+}
+
+.spec-table tr:last-child td {
+  border-bottom: none;
+}
+
+.spec-table td:first-child {
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 40%;
+}
+
+.spec-table td:last-child {
+  color: var(--text-secondary);
+}
+
+.product-detail-actions {
+  margin-top: 2.5rem;
+}
+
+.btn-whatsapp {
+  background-color: var(--whatsapp-green);
+  color: #fff;
+  border: 2px solid var(--whatsapp-green);
+}
+
+.btn-whatsapp:hover {
+  background-color: var(--whatsapp-green-dark);
+  border-color: var(--whatsapp-green-dark);
+  color: #fff !important; /* Override potential hover styles from other .btn classes */
+  opacity: 1;
+}
