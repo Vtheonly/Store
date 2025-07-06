@@ -7,15 +7,17 @@ import Footer from "./components/Footer/Footer";
 import StorePage from "./pages/StorePage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 
-// --- THIS IS THE LINE WE ARE FIXING ---
-import AddProductPage from "./admin/pages/AddProductPage.jsx"; 
-// ------------------------------------
+// Admin Imports
+import AddProductPage from "./admin/pages/AddProductPage.jsx";
+import DashboardPage from "./admin/pages/DashboardPage.jsx"; // New dashboard import
 
 import "./index.css";
 import "./components/Navbar/Navbar.css";
 import "./components/Footer/Footer.css";
 import "./components/ProductRow/ProductRow.css";
 import "./pages/ProductDetailPage.css";
+import "./admin/pages/AddProductPage.css"; // Ensure admin CSS is available
+import "./admin/pages/DashboardPage.css"; // Ensure admin CSS is available
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,7 +48,8 @@ function App() {
         <Route path="/" element={<StorePage filters={filters} />} />
         <Route path="/product/:productId" element={<ProductDetailPage />} />
 
-        {/* Admin Route */}
+        {/* Admin Routes */}
+        <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/add-product" element={<AddProductPage />} />
       </Routes>
       <Footer />

@@ -5,7 +5,7 @@ import { supabase } from "../../api/supabaseClient";
 
 const StorePage = ({ filters }) => {
   const [allProducts, setAllProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]); // New state for filtered products
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState({
     newArrivals: [],
     limitedOffers: [],
@@ -21,14 +21,25 @@ const StorePage = ({ filters }) => {
       const { data, error } = await supabase
         .from("products")
         .select("*")
-        .order('created_at', { ascending: false }); // Order by newest first
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching products:", error);
         setError(error.message);
         setAllProducts([]);
       } else {
-        setAllProducts(data);
+        // --- UPDATED to derive stockStatus from stock_quantity ---
+        const formattedProducts = data.map((product) => ({
+          ...product,
+          image: product.image_urls?.[0] || "",
+          originalPrice: product.original_price,
+          stockStatus: product.stock_quantity > 0 ? "En Stock" : "Épuisé",
+          soldCount: product.sold_count,
+          currency: "DA",
+        }));
+        // -----------------------
+
+        setAllProducts(formattedProducts);
         setError(null);
       }
       setIsLoading(false);
@@ -61,7 +72,7 @@ const StorePage = ({ filters }) => {
       );
     }
 
-    setFilteredProducts(products); // Set the filtered products
+    setFilteredProducts(products);
 
     // Categorize the filtered products
     const newArrivals = products.filter((p) =>
@@ -74,18 +85,26 @@ const StorePage = ({ filters }) => {
       p.tags?.map((t) => t.toLowerCase()).includes("exclusif")
     );
     const topRated = [...products]
-      .sort((a, b) => b.sold_count - a.sold_count)
+      .sort((a, b) => b.soldCount - a.soldCount)
       .slice(0, 15);
 
     setCategories({ newArrivals, limitedOffers, exclusives, topRated });
   }, [filters, allProducts]);
 
   if (isLoading) {
-    return <div className="store-container"><p className="no-results">Loading products...</p></div>;
+    return (
+      <div className="store-container">
+        <p className="no-results">Loading products...</p>
+      </div>
+    );
   }
-  
+
   if (error) {
-    return <div className="store-container"><p className="no-results">Error: {error}</p></div>;
+    return (
+      <div className="store-container">
+        <p className="no-results">Error: {error}</p>
+      </div>
+    );
   }
 
   const hasFilterResults = filteredProducts.length > 0;
@@ -99,11 +118,14 @@ const StorePage = ({ filters }) => {
       <main>
         {hasFilterResults ? (
           <>
-            {/* THIS IS THE NEW ROW TO ALWAYS SHOW RESULTS */}
             <ProductRow title="Tous les produits" products={filteredProducts} />
-            <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', margin: '3rem 0'}} />
-
-            {/* The existing category rows */}
+            <hr
+              style={{
+                border: "none",
+                borderTop: "1px solid var(--border-color)",
+                margin: "3rem 0",
+              }}
+            />
             <ProductRow title="Nouveautés" products={categories.newArrivals} />
             <ProductRow
               title="Offres Limitées"
