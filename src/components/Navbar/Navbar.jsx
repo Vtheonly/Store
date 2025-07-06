@@ -91,7 +91,7 @@ const Navbar = ({ onFilterChange }) => {
       <nav className="navbar">
         <div className="navbar-container">
           <a href="/" className="navbar-logo">
-            WORCRAFT
+            DTL Vent et Location
           </a>
           <ul className="nav-menu">
             <li className="nav-item">
