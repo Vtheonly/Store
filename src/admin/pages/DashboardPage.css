@@ -23,8 +23,24 @@
   margin: 0;
 }
 
-.dashboard-header > .btn-reel {
+.dashboard-header-actions {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .dashboard-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dashboard-header-actions {
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+  }
 }
 
 /* Feedback messages */
@@ -83,12 +99,26 @@
 }
 
 /* Column widths */
-.col-image { flex: 0 0 60px; text-align: left; }
-.col-name { flex: 3 1 0; text-align: left; }
-.col-stock { flex: 1 1 0; text-align: left; }
-.col-price { flex: 1 1 0; text-align: left; }
-.col-actions { flex: 1 1 0; text-align: left; }
-
+.col-image {
+  flex: 0 0 60px;
+  text-align: left;
+}
+.col-name {
+  flex: 3 1 0;
+  text-align: left;
+}
+.col-stock {
+  flex: 1 1 0;
+  text-align: left;
+}
+.col-price {
+  flex: 1 1 0;
+  text-align: left;
+}
+.col-actions {
+  flex: 1 1 0;
+  text-align: left;
+}
 
 .table-product-image {
   width: 60px;
@@ -130,6 +160,7 @@
   font-weight: 500;
   transition: color 0.2s ease-in-out;
   border-radius: 6px;
+  text-decoration: none; /* For Link component */
 }
 
 .btn-edit-text:hover {
@@ -154,4 +185,24 @@
 .btn-delete:hover {
   background-color: var(--accent-red);
   color: var(--text-on-accent);
+}
+
+/* Logout Button */
+.btn-logout {
+  font-family: inherit;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-logout:hover {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+  background-color: var(--bg-secondary);
 }

@@ -1,10 +1,11 @@
 // src/admin/pages/DashboardPage.jsx
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../../api/supabaseClient"; // Assuming this path is correct
-import { Link } from "react-router-dom";
-import "./DashboardPage.css"; // Styles for the dashboard
+import { supabase } from "../../../api/supabaseClient";
+import { Link, useNavigate } from "react-router-dom";
+import "./DashboardPage.css";
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,6 +60,16 @@ const DashboardPage = () => {
     }
   };
 
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error logging out:", error);
+      setFeedback({ type: "error", message: "Failed to log out." });
+    } else {
+      navigate("/admin/login");
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="dashboard-container">
@@ -71,9 +82,14 @@ const DashboardPage = () => {
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h1>Admin Dashboard</h1>
-        <Link to="/admin/add-product" className="btn btn-reel">
-          + ADD NEW PRODUCT
-        </Link>
+        <div className="dashboard-header-actions">
+          <Link to="/admin/add-product" className="btn btn-reel">
+            + ADD NEW PRODUCT
+          </Link>
+          <button onClick={handleLogout} className="btn-logout">
+            Logout
+          </button>
+        </div>
       </div>
 
       {feedback && (
@@ -83,7 +99,6 @@ const DashboardPage = () => {
       )}
       {error && <p className="feedback error-feedback">Error: {error}</p>}
 
-      {/* --- FIX: Replaced <table> with a flexbox-based structure --- */}
       <div className="product-list-container">
         <div className="product-list-header">
           <div className="col-image">Image</div>
@@ -110,7 +125,6 @@ const DashboardPage = () => {
                 <div className="col-stock">{product.stock_quantity ?? 0}</div>
                 <div className="col-price">{product.price}</div>
                 <div className="col-actions actions-cell">
-                  {/* --- FIX: Changed button to a Link for editing --- */}
                   <Link
                     to={`/admin/edit-product/${product.id}`}
                     className="btn-edit-text"
