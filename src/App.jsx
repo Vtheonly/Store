@@ -9,6 +9,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 
 // Admin Imports
 import AddProductPage from "./admin/pages/AddProductPage.jsx";
+import EditProductPage from "./admin/pages/EditProductPage.jsx"; // New edit page import
 import DashboardPage from "./admin/pages/DashboardPage.jsx"; // New dashboard import
 
 import "./index.css";
@@ -51,6 +52,7 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin" element={<DashboardPage />} />
         <Route path="/admin/add-product" element={<AddProductPage />} />
+        <Route path="/admin/edit-product/:productId" element={<EditProductPage />} />
       </Routes>
       <Footer />
     </div>

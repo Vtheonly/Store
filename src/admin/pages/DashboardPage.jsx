@@ -1,6 +1,6 @@
 // src/admin/pages/DashboardPage.jsx
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../../api/supabaseClient";
+import { supabase } from "../../../api/supabaseClient"; // Assuming this path is correct
 import { Link } from "react-router-dom";
 import "./DashboardPage.css"; // Styles for the dashboard
 
@@ -30,15 +30,6 @@ const DashboardPage = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  const handleEdit = (productId) => {
-    console.log("Navigate to edit page for product:", productId);
-    setFeedback({
-      type: "info",
-      message: `Edit functionality for product ${productId} is not yet implemented.`,
-    });
-    setTimeout(() => setFeedback(null), 4000);
-  };
 
   const handleDelete = async (productId) => {
     if (
@@ -119,12 +110,13 @@ const DashboardPage = () => {
                 <div className="col-stock">{product.stock_quantity ?? 0}</div>
                 <div className="col-price">{product.price}</div>
                 <div className="col-actions actions-cell">
-                  <button
-                    onClick={() => handleEdit(product.id)}
+                  {/* --- FIX: Changed button to a Link for editing --- */}
+                  <Link
+                    to={`/admin/edit-product/${product.id}`}
                     className="btn-edit-text"
                   >
                     Edit
-                  </button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(product.id)}
                     className="btn-delete"
