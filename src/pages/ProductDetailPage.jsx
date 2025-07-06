@@ -1,9 +1,9 @@
 // src/pages/ProductDetailPage.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import stock from "../../public/data/stock.json";
+import { supabase } from "../../api/supabaseClient"; // <-- IMPORT SUPABASE CLIENT
 
-// Self-contained SVG icon for WhatsApp
+// (Keep the WhatsAppIcon component as it is)
 const WhatsAppIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -24,22 +24,38 @@ const ProductDetailPage = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const foundProduct = stock.find((p) => p.id.toString() === productId);
-    if (foundProduct) {
-      setProduct(foundProduct);
-      setActiveImage(
-        foundProduct.images ? foundProduct.images[0] : foundProduct.image
-      );
-    } else {
-      setError(true);
-    }
-    setIsLoading(false);
-  }, [productId]);
+    const fetchProduct = async () => {
+      if (!productId) return;
+
+      setIsLoading(true);
+      // Fetch a SINGLE product where the 'id' column matches productId
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", productId)
+        .single(); // .single() is key here!
+
+      if (error) {
+        console.error("Error fetching product:", error);
+        setError(true);
+        setProduct(null);
+      } else {
+        setProduct(data);
+        // 'image_urls' is the column name in our database
+        setActiveImage(data.image_urls ? data.image_urls[0] : "");
+        setError(false);
+      }
+      setIsLoading(false);
+    };
+
+    fetchProduct();
+  }, [productId]); // Re-run this effect if the productId changes
 
   if (isLoading) {
+    // You can use the existing spinner CSS here if you want
     return (
-      <div className="loading-screen">
-        <p>Loading product...</p>
+      <div className="store-container">
+        <p className="no-results">Loading product...</p>
       </div>
     );
   }
@@ -61,11 +77,11 @@ const ProductDetailPage = () => {
       </div>
     );
   }
-
-  // Construct the WhatsApp message link
+  
+  // NOTE: 'whatsapp_number' is the column name in the database
   const whatsappMessage = `Bonjour, je suis intéressé par le produit: ${product.name} (ID: ${product.id}).`;
   const whatsappLink = `https://wa.me/${
-    product.whatsappNumber
+    product.whatsapp_number
   }?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -77,8 +93,9 @@ const ProductDetailPage = () => {
             <img src={activeImage} alt={product.name} className="main-image" />
           </div>
           <div className="thumbnail-list">
-            {product.images &&
-              product.images.map((img, index) => (
+             {/* Use 'image_urls' from the database */}
+            {product.image_urls &&
+              product.image_urls.map((img, index) => (
                 <div
                   key={index}
                   className={`thumbnail-item ${
@@ -112,9 +129,9 @@ const ProductDetailPage = () => {
             <span className="current-price">
               {product.price} {product.currency}
             </span>
-            {product.originalPrice && (
+            {product.original_price && (
               <span className="original-price">
-                {product.originalPrice} {product.currency}
+                {product.original_price} {product.currency}
               </span>
             )}
           </div>
@@ -142,7 +159,7 @@ const ProductDetailPage = () => {
             </div>
           )}
 
-          {product.whatsappNumber && (
+          {product.whatsapp_number && (
             <div className="product-detail-actions">
               <a
                 href={whatsappLink}
