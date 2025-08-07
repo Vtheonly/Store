@@ -1,0 +1,18 @@
+/* TitleWithIcon component styles */
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.title-with-icon .icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.title-with-icon:hover .icon {
+  transform: scale(1.1);
+}

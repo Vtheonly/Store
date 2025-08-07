@@ -1,7 +1,9 @@
 // src/pages/StorePage.jsx
 import React, { useState, useEffect } from "react";
 import ProductRow from "../components/ProductRow/ProductRow";
-import { supabase } from "../../api/supabaseClient";
+import dataService from "../services/dataService";
+import { Sparkles, TrendingUp, Star, Trophy, IconWrapper } from "../components/icons";
+import TitleWithIcon from "../components/TitleWithIcon/TitleWithIcon";
 
 const StorePage = ({ filters }) => {
   const [allProducts, setAllProducts] = useState([]);
@@ -14,35 +16,47 @@ const StorePage = ({ filters }) => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isUsingMockData, setIsUsingMockData] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .order("created_at", { ascending: false });
+      
+      try {
+        const { data, error } = await dataService.fetchProducts();
 
-      if (error) {
-        console.error("Error fetching products:", error);
-        setError(error.message);
+        if (error) {
+          console.error("Error fetching products:", error);
+          setError(error.message);
+          setAllProducts([]);
+        } else {
+          // Format products consistently for both mock and real data
+          const formattedProducts = data.map((product) => ({
+            ...product,
+            image: product.image_urls?.[0] || product.image || "",
+            originalPrice: product.original_price,
+            stockStatus: product.stock_quantity > 0 ? "En Stock" : "Épuisé",
+            soldCount: product.sold_count,
+            currency: product.currency || "DA",
+          }));
+
+          setAllProducts(formattedProducts);
+          setError(null);
+        }
+        
+        // Update mock data indicator
+        setIsUsingMockData(dataService.isUsingMockData());
+        
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        setError("Failed to load products");
         setAllProducts([]);
-      } else {
-        // --- UPDATED to derive stockStatus from stock_quantity ---
-        const formattedProducts = data.map((product) => ({
-          ...product,
-          image: product.image_urls?.[0] || "",
-          originalPrice: product.original_price,
-          stockStatus: product.stock_quantity > 0 ? "En Stock" : "Épuisé",
-          soldCount: product.sold_count,
-          currency: "DA",
-        }));
-        // -----------------------
-
-        setAllProducts(formattedProducts);
-        setError(null);
       }
-      setIsLoading(false);
+      
+      // Add a small delay for better UX - let users see the loading skeleton
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     };
 
     fetchProducts();
@@ -51,23 +65,46 @@ const StorePage = ({ filters }) => {
   useEffect(() => {
     let products = [...allProducts];
 
-    // Apply filters (this logic remains the same)
+    // Apply search filter
     if (filters.searchTerm) {
       products = products.filter((p) =>
-        p.name.toLowerCase().includes(filters.searchTerm.toLowerCase())
+        p.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        p.description.toLowerCase().includes(filters.searchTerm.toLowerCase())
       );
     }
+
+    // Apply price filters
     if (filters.minPrice) {
       products = products.filter((p) => p.price >= Number(filters.minPrice));
     }
     if (filters.maxPrice) {
       products = products.filter((p) => p.price <= Number(filters.maxPrice));
     }
+
+    // Apply category filter
+    if (filters.category) {
+      products = products.filter((p) =>
+        p.tags?.some((tag) => tag.toLowerCase().includes(filters.category.toLowerCase()))
+      );
+    }
+
+    // Apply brand filter
+    if (filters.brand) {
+      products = products.filter((p) =>
+        p.tags?.some((tag) => tag.toLowerCase().includes(filters.brand.toLowerCase())) ||
+        p.name.toLowerCase().includes(filters.brand.toLowerCase()) ||
+        p.description.toLowerCase().includes(filters.brand.toLowerCase())
+      );
+    }
+
+    // Apply custom tags filter
     if (filters.tags) {
       const searchTags = filters.tags.toLowerCase().split(" ").filter(Boolean);
       products = products.filter((p) =>
         searchTags.every((st) =>
-          p.tags?.some((pt) => pt.toLowerCase().includes(st))
+          p.tags?.some((pt) => pt.toLowerCase().includes(st)) ||
+          p.name.toLowerCase().includes(st) ||
+          p.description.toLowerCase().includes(st)
         )
       );
     }
@@ -94,7 +131,28 @@ const StorePage = ({ filters }) => {
   if (isLoading) {
     return (
       <div className="store-container">
-        <p className="no-results">Loading products...</p>
+        <main>
+          {/* Loading skeleton for multiple product rows */}
+          {[...Array(4)].map((_, rowIndex) => (
+            <section key={rowIndex} className="product-row-container">
+              <div className="loading-shimmer loading-row-title"></div>
+              <div className="product-row-wrapper">
+                <div className="product-row-scroll">
+                  {[...Array(6)].map((_, cardIndex) => (
+                    <div key={cardIndex} className="loading-card">
+                      <div className="loading-shimmer loading-image"></div>
+                      <div className="loading-content">
+                        <div className="loading-shimmer loading-title"></div>
+                        <div className="loading-shimmer loading-price"></div>
+                        <div className="loading-shimmer loading-tags"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ))}
+        </main>
       </div>
     );
   }
@@ -111,10 +169,6 @@ const StorePage = ({ filters }) => {
 
   return (
     <div className="store-container">
-      <header className="store-header">
-        <h1>Nos Produits</h1>
-        <p>Découvrez notre sélection d'outils professionnels Worcraft.</p>
-      </header>
       <main>
         {hasFilterResults ? (
           <>
@@ -126,19 +180,28 @@ const StorePage = ({ filters }) => {
                 margin: "3rem 0",
               }}
             />
-            <ProductRow title="Nouveautés" products={categories.newArrivals} />
+            <ProductRow 
+              title={<TitleWithIcon icon={Sparkles} iconColor="#667eea">Nouveautés</TitleWithIcon>} 
+              products={categories.newArrivals} 
+            />
             <ProductRow
-              title="Offres Limitées"
+              title={<TitleWithIcon icon={TrendingUp} iconColor="#ff6b6b">Offres Spéciales</TitleWithIcon>}
               products={categories.limitedOffers}
             />
-            <ProductRow title="Exclusif" products={categories.exclusives} />
+            <ProductRow 
+              title={<TitleWithIcon icon={Star} iconColor="#ffd700">Collection Premium</TitleWithIcon>} 
+              products={categories.exclusives} 
+            />
             <ProductRow
-              title="Les Mieux Notés"
+              title={<TitleWithIcon icon={Trophy} iconColor="#ff8c00">Les Plus Populaires</TitleWithIcon>}
               products={categories.topRated}
             />
           </>
         ) : (
-          <p className="no-results">No products match your filters.</p>
+          <div className="no-results">
+            <h3>Aucun produit trouvé</h3>
+            <p>Essayez de modifier vos filtres ou votre recherche.</p>
+          </div>
         )}
       </main>
     </div>

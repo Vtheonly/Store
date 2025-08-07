@@ -1,9 +1,12 @@
 // src/components/ProductCard.jsx
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "./context/CartContext";
 
 function ProductCard({ product }) {
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const {
     id,
     image,
@@ -16,18 +19,40 @@ function ProductCard({ product }) {
     soldCount,
   } = product;
 
-  // This function will be called when the button is clicked
   const handleInspectClick = () => {
     navigate(`/product/${id}`);
+  };
+
+  const handleImageLoad = () => {
+    setIsImageLoaded(true);
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      name,
+      price,
+      currency,
+      image,
+    });
   };
 
   return (
     <div className="product-card">
       <div className="product-image-container">
-        <img src={image} alt={name} className="product-image" />
+        {!isImageLoaded && (
+          <div className="loading-shimmer" style={{ width: '100%', height: '100%', borderRadius: '8px' }} />
+        )}
+        <img 
+          src={image} 
+          alt={name} 
+          className={`product-image ${isImageLoaded ? 'loaded' : ''}`}
+          onLoad={handleImageLoad}
+          loading="lazy"
+        />
         <div className="product-tags">
-          {tags.map((tag) => (
-            <span key={tag} className="tag">
+          {tags && tags.map((tag, index) => (
+            <span key={tag} className="tag" style={{ animationDelay: `${index * 0.1}s` }}>
               {tag}
             </span>
           ))}
@@ -69,9 +94,9 @@ function ProductCard({ product }) {
               <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.816 1.221-2.25 2.53-4.135 3.431C8.834 12.338 7.07 12.5 5.09 12.06A13.132 13.132 0 0 1 1.172 8z" />
               <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
             </svg>
-            Inspecter
+            Voir Détails
           </button>
-          <button className="btn btn-reel">
+          <button className="btn btn-reel" onClick={handleAddToCart}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -79,10 +104,10 @@ function ProductCard({ product }) {
               fill="currentColor"
               viewBox="0 0 16 16"
             >
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-              <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z" />
+              <path d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/>
+              <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
             </svg>
-            Regarder Reel
+            Ajouter au Panier
           </button>
         </div>
       </div>

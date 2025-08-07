@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <p>© {new Date().getFullYear()} WORCRAFT. All Rights Reserved.</p>
+        <p>© {new Date().getFullYear()} StyleShop. Made with ❤️ for fashion lovers.</p>
       </div>
     </footer>
   );

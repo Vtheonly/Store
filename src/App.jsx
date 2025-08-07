@@ -6,6 +6,9 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import StorePage from "./pages/StorePage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import InfoPage from "./pages/InfoPage";
+import { CartProvider } from "./components/context/CartContext";
+import FloatingCart from "./components/FloatingCart/FloatingCart";
 
 // Admin Imports
 import AdminLoginPage from "./admin/pages/AdminLoginPage.jsx";
@@ -19,9 +22,16 @@ import "./components/Navbar/Navbar.css";
 import "./components/Footer/Footer.css";
 import "./components/ProductRow/ProductRow.css";
 import "./pages/ProductDetailPage.css";
+import "./pages/InfoPage.css";
+import "./components/Reviews/Reviews.css";
 import "./admin/pages/AddProductPage.css";
 import "./admin/pages/DashboardPage.css";
-import "./admin/pages/AdminLoginPage.css"; // <-- Import new CSS
+import "./admin/pages/AdminLoginPage.css";
+
+// Import dev utils in development
+if (process.env.NODE_ENV === 'development') {
+  import('./utils/devUtils');
+}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,6 +40,8 @@ function App() {
     minPrice: "",
     maxPrice: "",
     tags: "",
+    category: "",
+    brand: "",
   });
 
   useEffect(() => {
@@ -45,23 +57,27 @@ function App() {
   }
 
   return (
-    <div className="app-wrapper">
-      <Navbar onFilterChange={setFilters} />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<StorePage filters={filters} />} />
-        <Route path="/product/:productId" element={<ProductDetailPage />} />
+    <CartProvider>
+      <div className="app-wrapper">
+        <Navbar onFilterChange={setFilters} />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<StorePage filters={filters} />} />
+          <Route path="/product/:productId" element={<ProductDetailPage />} />
+          <Route path="/info" element={<InfoPage />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/admin" element={<DashboardPage />} />
-          <Route path="/admin/add-product" element={<AddProductPage />} />
-          <Route path="/admin/edit-product/:productId" element={<EditProductPage />} />
-        </Route>
-      </Routes>
-      <Footer />
-    </div>
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/admin" element={<DashboardPage />} />
+            <Route path="/admin/add-product" element={<AddProductPage />} />
+            <Route path="/admin/edit-product/:productId" element={<EditProductPage />} />
+          </Route>
+        </Routes>
+        <Footer />
+        <FloatingCart />
+      </div>
+    </CartProvider>
   );
 }
 

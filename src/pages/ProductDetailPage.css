@@ -151,6 +151,14 @@
 
 .product-detail-actions {
   margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.product-detail-actions .btn {
+  flex: 1;
+  min-width: 200px;
 }
 
 .btn-whatsapp {

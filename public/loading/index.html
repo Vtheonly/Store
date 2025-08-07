@@ -4,68 +4,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading</title>
-    <link rel="stylesheet" href="style.css">
+    <title>StyleShop - The Infinite Showcase</title>
+
+    <!-- Google Fonts for the branding text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- All CSS is now inside the <style> tag -->
+    <style>
+        /* Basic Reset and Font */
+        body {
+            margin: 0;
+            overflow: hidden;
+            /* Absolutely critical to prevent scrollbars */
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+        }
+
+        /* --- Main Loader Container --- */
+        #showcase-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            /* Hides the parts of the rotated grid that go off-screen */
+        }
+
+        /* --- The Rotated Container --- */
+        #rotated-wrapper {
+            position: absolute;
+            width: 150vw;
+            height: 150vh;
+            top: -25vh;
+            left: -25vw;
+            transform: rotate(-15deg);
+            display: flex;
+            align-items: center;
+            /* Start hidden, made visible by JS after loading */
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* --- The Infinite Scrolling Grid --- */
+        #scrolling-grid {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            gap: 10px;
+            animation: scroll-vertical 80s linear infinite;
+        }
+
+        .grid-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 10px;
+            animation: scroll-left 40s linear infinite;
+        }
+
+        .grid-row:nth-child(even) {
+            animation-direction: reverse;
+        }
+
+        /* --- Individual Image Cells --- */
+        .grid-cell {
+            width: 20vh;
+            height: 20vh;
+            flex-shrink: 0;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.8s ease-in-out;
+            border-radius: 6px;
+        }
+
+        /* --- The Scrolling Animation --- */
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-33.33%);
+            }
+        }
+
+        @keyframes scroll-vertical {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        @keyframes float-in {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        @keyframes animated-gradient-text {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 0.9;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-shadow {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                    0 0 5px rgba(90, 143, 255, 0.2),
+                    0 0 5px rgba(255, 107, 107, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4),
+                    0 0 20px rgba(90, 143, 255, 0.4),
+                    0 0 20px rgba(255, 107, 107, 0.4);
+            }
+        }
+
+        /* --- Static Branding Overlay --- */
+        .brand-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            text-align: center;
+            color: #f0f6fc;
+            pointer-events: none;
+
+            /* Enhanced Glassmorphism */
+            background: rgba(13, 17, 23, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+            border-radius: 32px;
+            padding: 50px 70px;
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            /* Animations */
+            animation: float-in 1s ease-out forwards, pulse-shadow 6s ease-in-out infinite;
+        }
+
+        .brand-name {
+            font-size: 8rem;
+            font-weight: 700;
+            margin: 0;
+
+            /* Animated Gradient Text */
+            background: linear-gradient(135deg, #5a8fff 0%, #ff6b6b 50%, #5a8fff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #f0f6fc;
+            /* Fallback */
+
+            /* Glowing effect */
+            animation: animated-gradient-text 5s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            /* Add a subtle shadow behind the text for readability */
+        }
+
+        .tagline {
+            font-size: 2rem;
+            font-weight: 400;
+            height: 30px;
+            /* Reserve space */
+            margin-top: 1rem;
+            color: #c9d1d9;
+            opacity: 0;
+            /* Start hidden for animation */
+            animation: fade-in-up 1s ease-out 0.5s forwards;
+            /* Delay start */
+        }
+
+        /* --- Loading Dots Animation --- */
+        .loading-dots span {
+            display: inline-block;
+            opacity: 0;
+            animation: blink 1.4s infinite;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <div id="loader-container">
-        <div id="loading-bar">
-            <div id="loading-progress"></div>
-        </div>
-    </div>
-
-
-    <div class="master-container hidden">
-        <div id="central-content-box">
-            <div class="logo-container">
-                <object class="logo-svg" type="image/svg+xml" data="bailboard.svg">
-                    Logo
-                </object>
-            </div>
-        </div>
-
-        <div class="screw-assembly top-left">
-            <div class="shrinking-wrapper">
-                <div class="screw-container">
-                    <div class="screw-head">
-                        <object type="image/svg+xml" data="screw.svg">Screw</object>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="screw-assembly top-right">
-            <div class="shrinking-wrapper">
-                <div class="screw-container">
-                    <div class="screw-head">
-                        <object type="image/svg+xml" data="screw.svg">Screw</object>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="screw-assembly bottom-left">
-            <div class="shrinking-wrapper">
-                <div class="screw-container">
-                    <div class="screw-head">
-                        <object type="image/svg+xml" data="screw.svg">Screw</object>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="screw-assembly bottom-right">
-            <div class="shrinking-wrapper">
-                <div class="screw-container">
-                    <div class="screw-head">
-                        <object type="image/svg+xml" data="screw.svg">Screw</object>
-                    </div>
-                </div>
+    <div id="showcase-loader">
+        <div id="rotated-wrapper">
+            <div id="scrolling-grid">
+                <!-- Image cells are dynamically inserted here -->
             </div>
         </div>
     </div>
 
+    <div class="brand-overlay">
+        <h1 class="brand-name">StyleShop</h1>
+        <p class="tagline" id="tagline-text">
+            <!-- The tagline text will be set by JS -->
+            <span id="tagline-text" class="tagline">
+                <!-- JS will populate this -->
+            </span>
+        </p>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const gridContainer = document.getElementById('scrolling-grid');
+            const rotatedWrapper = document.getElementById('rotated-wrapper');
+            const tagline = document.getElementById('tagline-text');
+
+            // Backup images - these are very reliable and will be used if main images fail
+            const backupImages = [
+                'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/247204/pexels-photo-247204.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/1021693/pexels-photo-1021693.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/974911/pexels-photo-974911.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
+                'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
+            ];
+
+            // Using smaller resolution images for faster loading (400x400 instead of full size)
+            const imagePool = [
+                'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2043590/pexels-photo-2043590.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1036627/pexels-photo-1036627.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1126993/pexels-photo-1126993.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1852382/pexels-photo-1852382.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2752081/pexels-photo-2752081.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1375736/pexels-photo-1375736.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3768005/pexels-photo-3768005.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3756885/pexels-photo-3756885.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2229490/pexels-photo-2229490.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/974911/pexels-photo-974911.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3775087/pexels-photo-3775087.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1381556/pexels-photo-1381556.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2887718/pexels-photo-2887718.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/247204/pexels-photo-247204.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1021693/pexels-photo-1021693.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1639729/pexels-photo-1639729.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1300550/pexels-photo-1300550.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2703468/pexels-photo-2703468.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3760855/pexels-photo-3760855.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3760887/pexels-photo-3760887.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3762886/pexels-photo-3762886.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3763784/pexels-photo-3763784.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3764897/pexels-photo-3764897.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3772510/pexels-photo-3772510.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3775120/pexels-photo-3775120.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3775163/pexels-photo-3775163.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3776152/pexels-photo-3776152.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3778465/pexels-photo-3778465.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3782789/pexels-photo-3782789.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3785104/pexels-photo-3785104.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3794247/pexels-photo-3794247.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/4355345/pexels-photo-4355345.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/4588043/pexels-photo-4588043.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/5704253/pexels-photo-5704253.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/6311652/pexels-photo-6311652.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/6621472/pexels-photo-6621472.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/7620845/pexels-photo-7620845.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/8148386/pexels-photo-8148386.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/8370972/pexels-photo-8370972.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                // Additional fashion images for more variety
+                'https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1456706/pexels-photo-1456706.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1656684/pexels-photo-1656684.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/1884581/pexels-photo-1884581.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2065200/pexels-photo-2065200.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2294342/pexels-photo-2294342.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2613260/pexels-photo-2613260.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/3755706/pexels-photo-3755706.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/4210863/pexels-photo-4210863.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/4946515/pexels-photo-4946515.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/6069112/pexels-photo-6069112.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop',
+                'https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop'
+            ];
+
+            let gridCells = [];
+
+            /**
+             * NEW: Sets an image on a cell, with a fallback to a backup image on error.
+             * @param {HTMLElement} cell - The grid cell element.
+             * @param {string} primaryUrl - The primary image URL to try.
+             */
+            function setImageWithFallback(cell, primaryUrl) {
+                const img = new Image();
+                img.src = primaryUrl;
+                img.onload = () => {
+                    cell.style.backgroundImage = `url('${primaryUrl}')`;
+                };
+                img.onerror = () => {
+                    console.warn(`Failed to load ${primaryUrl}. Using backup.`);
+                    const backupUrl = backupImages[Math.floor(Math.random() * backupImages.length)];
+                    cell.style.backgroundImage = `url('${backupUrl}')`;
+                };
+            }
+
+
+            /**
+             * REVISED: Main function to initialize the showcase.
+             */
+            async function initShowcase() {
+                console.log("Starting showcase initialization...");
+
+                // Update the tagline
+                tagline.innerHTML = `
+                    Loading
+                    <span class="loading-dots">
+                        <span>.</span><span>.</span><span>.</span>
+                    </span>
+                `;
+
+                // Set final tagline after a delay
+                setTimeout(() => {
+                    tagline.innerHTML = "The Endless Aisle";
+                }, 2000);
+
+
+                // Create multiple rows for a proper grid effect with vertical scrolling
+                const rowsCount = 8; // More rows for vertical scrolling
+                const cellsPerRow = 18; // More cells for smoother scrolling
+
+                // Create double the rows for seamless vertical looping
+                for (let rowSet = 0; rowSet < 2; rowSet++) {
+                    for (let row = 0; row < rowsCount; row++) {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.classList.add('grid-row');
+
+                        // Create three sets of images for seamless horizontal looping
+                        for (let set = 0; set < 3; set++) {
+                            for (let i = 0; i < cellsPerRow; i++) {
+                                const imageIndex = (row * cellsPerRow + i + rowSet * 100) % imagePool.length;
+                                const cell = document.createElement('div');
+                                cell.classList.add('grid-cell');
+                                // Use the new function to set the image with a fallback
+                                setImageWithFallback(cell, imagePool[imageIndex]);
+                                rowDiv.appendChild(cell);
+                            }
+                        }
+
+                        gridContainer.appendChild(rowDiv);
+                    }
+                }
+
+                console.log(`Created ${rowsCount} rows with grid cells`);
+
+                // Store references to all cells AFTER they've been created.
+                gridCells = document.querySelectorAll('.grid-cell');
+
+                // Start the random update loop
+                setInterval(updateRandomImage, 2000);
+
+                console.log("Showcase initialization complete!");
+            }
+
+            /**
+             * Selects a random cell and updates its image to a new random one from the pool.
+             */
+            function updateRandomImage() {
+                if (gridCells.length === 0) return; // Safety check
+
+                const newImageUrl = imagePool[Math.floor(Math.random() * imagePool.length)];
+                const randomCell = gridCells[Math.floor(Math.random() * gridCells.length)];
+
+                // Animate out, change image, and animate in.
+                randomCell.style.opacity = '0';
+                setTimeout(() => {
+                    // Use the new function to set the image with a fallback
+                    setImageWithFallback(randomCell, newImageUrl);
+                    randomCell.style.opacity = '1';
+                }, 800); // This time must match the CSS transition-duration.
+            }
+
+            // Start the entire process!
+            initShowcase();
+        });
+    </script>
 
 </body>
 

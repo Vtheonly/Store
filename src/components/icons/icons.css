@@ -1,0 +1,40 @@
+/* Global icon styles for consistency */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+/* Icon hover effects */
+.nav-icon-btn .icon,
+.scroll-arrow .icon,
+.cart-toggle .icon,
+.cart-close .icon,
+.remove-btn .icon {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-icon-btn:hover .icon,
+.scroll-arrow:hover .icon {
+  transform: scale(1.1);
+}
+
+.cart-close:hover .icon,
+.remove-btn:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Ensure icons are properly sized in buttons */
+button .icon {
+  flex-shrink: 0;
+}
+
+/* Icon alignment in flex containers */
+.btn .icon {
+  margin-right: 0.5rem;
+}
+
+.btn .icon:last-child {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
